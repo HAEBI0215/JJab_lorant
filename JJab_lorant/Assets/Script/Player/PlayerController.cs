@@ -7,8 +7,6 @@ public class PlayerController : PlayerManager
 {
     public Rigidbody rb;
     public float speed = 10f;
-    public bool isShoot = false;
-    MoveManager movemanager;
 
     public Vector3 moveDirection;
     public float mouseSensitivity = 2f;

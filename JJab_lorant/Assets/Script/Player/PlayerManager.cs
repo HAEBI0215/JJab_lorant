@@ -12,6 +12,9 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] public bool isDead = false;
     [SerializeField] public bool isShoot = false;
 
+    [SerializeField] Bullet bullet;
+    [SerializeField] Gun gun;
+
     void Start()
     {
         currentHp = maxHp;
@@ -20,9 +23,23 @@ public class PlayerManager : MonoBehaviour
         isShoot = false;
     }
 
-    
+    void Shoot()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            isShoot = true;
+            gun.Fire();
+
+            Debug.Log("Shoot");
+        }
+        else
+        {
+            isShoot = false;
+        }
+    }
+
     void Update()
     {
-        
+        Shoot();
     }
 }

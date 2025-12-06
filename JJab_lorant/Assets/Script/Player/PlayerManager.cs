@@ -10,10 +10,14 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] public int damage = 50;
     [SerializeField] public int cirtDamage;
     [SerializeField] public bool isDead = false;
+    [SerializeField] public bool isShoot = false;
 
     void Start()
     {
-        
+        currentHp = maxHp;
+        cirtDamage = damage * 2;
+        isDead = false;
+        isShoot = false;
     }
 
     

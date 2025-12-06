@@ -8,40 +8,68 @@ public class PlayerController : PlayerManager
     public Rigidbody rb;
     public float speed = 10f;
     public bool isShoot = false;
-    public Vector3 moveDirection;
     MoveManager movemanager;
+
+    public Vector3 moveDirection;
+    public float mouseSensitivity = 2f;
+    public Transform cam;
+    public float moveX;
+    public float moveZ;
+
+    float mouseX;
+    float mouseY;
+    float camRotX = 0f;
 
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         maxHp = 100;
         currentHp = maxHp;
         damage = 50;
         cirtDamage = damage * 2;
         isDead = false;
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
-        {
-            isShoot = true;
-        }
-        float horizontalInput = MoveManager.Instance.horizontalInput;
-        float verticalInput = MoveManager.Instance.VerticalInput;
+        mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
-        moveDirection = transform.forward * verticalInput + transform.right * horizontalInput;
-        moveDirection.Normalize();
+        moveX = Input.GetAxis("Horizontal");
+        moveZ = Input.GetAxis("Vertical");
     }
 
     void PlayerMove()
     {
-         rb.AddForce(moveDirection * speed, ForceMode.Force);
+        Vector3 camForward = cam.forward;
+        camForward.y = 0f;
+        camForward.Normalize();
+
+        Vector3 camRight = cam.right;
+        camRight.y = 0f;
+        camRight.Normalize();
+
+        moveDirection = camForward * moveZ + camRight * moveX;
+        moveDirection = moveDirection.normalized * speed;
+
+        rb.velocity = new Vector3(moveDirection.x, rb.velocity.y, moveDirection.z);
+    }
+
+    void CameraMove()
+    {
+        transform.Rotate(Vector3.up * mouseX);
+
+        camRotX -= mouseY;
+        camRotX = Mathf.Clamp(camRotX, -90f, 90f);
+
+        cam.localRotation = Quaternion.Euler(camRotX, 0f, 0f);
     }
 
     private void FixedUpdate()
     {
         PlayerMove();
+        CameraMove();
     }
-
 }

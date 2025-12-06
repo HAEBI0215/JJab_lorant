@@ -4,35 +4,21 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    private static CameraController instance;
-    public static CameraController Instance
+    public float mouseSensitivity = 1f;
+    private float mouseX = 0f;
+    private float mouseY = 0f;
+
+    void Start()
     {
-        get
-        {
-            return instance;
-        }
+        Cursor.lockState = CursorLockMode.Locked;
     }
-
-    private void Awake()
-    {
-        if (instance)
-        {
-            Destroy(instance);
-            return;
-        }
-
-        instance = this;
-        DontDestroyOnLoad(this.gameObject);
-    }
-
     private void Update()
     {
-        transform.position = PlayerController.MoveManager.eyes.transform.position;
+        mouseX += Input.GetAxis("Mouse X") * mouseSensitivity;
+        mouseY += Input.GetAxis("Mouse Y") * mouseSensitivity;
 
-        Quaternion xQuat, yQuat;
-        xQuat = MoveManager.Instance.xQuat;
-        yQuat = MoveManager.Instance.yQuat;
+        mouseY = Mathf.Clamp(mouseY, -90f, 90f);
 
-        transform.localRotation = xQuat * yQuat;
+        transform.localRotation = Quaternion.Euler(-mouseY, mouseX, 0f);
     }
 }

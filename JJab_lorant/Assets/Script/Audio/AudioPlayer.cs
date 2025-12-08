@@ -5,27 +5,19 @@ using static Unity.VisualScripting.Member;
 
 public class AudioPlayer : MonoBehaviour
 {
-    PlayerManager pm;
     public AudioSource audioSource;
     public AudioClip fireClip;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        pm = GetComponent<PlayerManager>();
-    }
+    public AudioClip reloadClip;
 
     public void PlaySound()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            audioSource.PlayOneShot(fireClip, 0.5f);
-        }
-        else
-        {
-            audioSource.Stop();
-            return;
-        }
+        audioSource.PlayOneShot(fireClip, 0.5f);
+    }
+
+    public void ReloadSound()
+    {
+        audioSource.PlayOneShot(reloadClip, 0.5f);
+        Debug.Log("play reloaded");
     }
 
     // Update is called once per frame

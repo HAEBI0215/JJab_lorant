@@ -13,6 +13,11 @@ public class Gun : MonoBehaviour
         
     }
 
+    void Update()
+    {
+        
+    }
+
     public void Fire()
     {
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);

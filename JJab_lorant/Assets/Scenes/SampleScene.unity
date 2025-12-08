@@ -543,8 +543,10 @@ MonoBehaviour:
   cirtDamage: 0
   isDead: 0
   isShoot: 0
+  ammo: 30
   bullet: {fileID: 7126063928760910686, guid: aa0c4e5553794104e86c909df585963b, type: 3}
   gun: {fileID: 1126759622}
+  audio: {fileID: 1064925163}
 --- !u!114 &1064925162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -563,8 +565,10 @@ MonoBehaviour:
   cirtDamage: 0
   isDead: 0
   isShoot: 0
+  ammo: 30
   bullet: {fileID: 7126063928760910686, guid: aa0c4e5553794104e86c909df585963b, type: 3}
   gun: {fileID: 1126759622}
+  audio: {fileID: 1064925163}
   rb: {fileID: 1064925156}
   speed: 10
   moveDirection: {x: 0, y: 0, z: 0}
@@ -586,6 +590,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1064925164}
   fireClip: {fileID: 8300000, guid: 1bb48b2a07397c34a91e8b53fcf5dd05, type: 3}
+  reloadClip: {fileID: 8300000, guid: 3929b7bb38ccc2848aa5736c1e567bba, type: 3}
 --- !u!82 &1064925164
 AudioSource:
   m_ObjectHideFlags: 0

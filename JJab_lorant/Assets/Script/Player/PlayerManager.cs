@@ -14,6 +14,7 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField] Bullet bullet;
     [SerializeField] Gun gun;
+    [SerializeField] AudioPlayer audio;
 
     void Start()
     {
@@ -29,6 +30,7 @@ public class PlayerManager : MonoBehaviour
         {
             isShoot = true;
             gun.Fire();
+            audio.PlaySound();
 
             Debug.Log("Shoot");
         }

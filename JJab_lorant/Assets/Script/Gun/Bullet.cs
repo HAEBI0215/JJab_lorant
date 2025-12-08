@@ -11,14 +11,4 @@ public class Bullet : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * bulletSpeed);
     }
-
-    public void Update()
-    {
-        
-    }
-
-    void FixedUpdate()
-    {
-        
-    }
 }

@@ -35,12 +35,12 @@ public class PlayerManager : MonoBehaviour
 
             ammo--;
 
-            Debug.Log("Shoot");
-            Debug.Log($"remaining bullet : {ammo}");
+            //Debug.Log("Shoot");
+            //Debug.Log($"remaining bullet : {ammo}");
         }
         else if (ammo == 0)
         {
-            Debug.Log("i need more bullet");
+            //Debug.Log("i need more bullet");
         }
 
         else
@@ -56,7 +56,7 @@ public class PlayerManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.R))
             {
                 ammo = 30;
-                Debug.Log($"more bullet now : {ammo}");
+                //Debug.Log($"more bullet now : {ammo}");
                 audio.ReloadSound();
             }
         }

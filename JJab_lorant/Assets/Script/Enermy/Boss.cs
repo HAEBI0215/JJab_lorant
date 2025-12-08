@@ -6,10 +6,10 @@ using UnityEngine.AI;
 public class Boss : MonoBehaviour
 {
     public Transform player;
-    public float Range = 10f;
-    public float attackRange = 15f;
-    public float attackDelay = 0.4f;
+    public float Range = 80f;
+    public float attackRange = 70f;
     public float speed = 4;
+    private float lastAttackTime = -999f;
 
     private NavMeshAgent agent;
     public GameObject bulletPrefab;
@@ -19,6 +19,7 @@ public class Boss : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        agent.speed = speed;
     }
 
     // Update is called once per frame
@@ -28,11 +29,27 @@ public class Boss : MonoBehaviour
         if (dist < Range)
         {
             agent.SetDestination(player.position);
-            transform.LookAt(player);
+
+            Vector3 lookPos = player.position;
+            lookPos.y = transform.position.y;
+            transform.LookAt(lookPos);
             if(dist > attackRange)
             {
                 Shoot();
+                lastAttackTime = Time.time;
             }
+            else
+            {
+                agent.ResetPath();
+            }
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            Destroy(gameObject);
         }
     }
 

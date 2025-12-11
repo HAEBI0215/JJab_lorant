@@ -7,6 +7,7 @@ public class Boss : MonoBehaviour
 {
     public Transform player;
     public float Range = 80f;
+    public float hp = 500f;
     public float attackRange = 70f;
     public float speed = 4;
     private float lastAttackTime = -999f;
@@ -15,11 +16,13 @@ public class Boss : MonoBehaviour
     public GameObject bulletPrefab;
     public GameObject firePos; //생성 위치
     public Transform firePoint; //발사 위치
+    public PlayerManager pm;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.speed = speed;
+        pm = FindObjectOfType<PlayerManager>();
     }
 
     // Update is called once per frame
@@ -45,11 +48,15 @@ public class Boss : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision other)
     {
-        if (collision.gameObject.CompareTag("Bullet"))
+        if (other.gameObject.CompareTag("Bullet"))
         {
-            Destroy(gameObject);
+            hp -= pm.damage;
+            Debug.Log("Boss Hit! Current HP: " + hp);
+
+            if (hp == 0)
+                Destroy(gameObject);
         }
     }
 

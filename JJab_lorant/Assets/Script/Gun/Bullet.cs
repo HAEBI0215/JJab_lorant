@@ -14,10 +14,9 @@ public class Bullet : MonoBehaviour
 
         Destroy(gameObject, destroyTime);
     }
-    void OnCollisionEnter(Collision other)
+    void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Bullet Trigger Hit: " + other.gameObject.name);
-        if (other.gameObject.CompareTag("Eenemy"))
+        if (collision.gameObject.CompareTag("Enemy"))
         {
             Destroy(gameObject);
         }

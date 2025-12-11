@@ -252,7 +252,7 @@ Transform:
   m_GameObject: {fileID: 349150844}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: -0.511, y: 0, z: 0}
+  m_LocalPosition: {x: -0.89, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1615,11 +1615,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1064925160}
   Range: 10
+  hp: 500
   attackRange: 5
   speed: 4
   bulletPrefab: {fileID: 1032951473433706074, guid: aa0c4e5553794104e86c909df585963b, type: 3}
   firePos: {fileID: 2146689667}
   firePoint: {fileID: 349150845}
+  pm: {fileID: 0}
 --- !u!195 &1595953138
 NavMeshAgent:
   m_ObjectHideFlags: 0

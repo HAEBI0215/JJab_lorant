@@ -51,7 +51,7 @@ public class PlayerManager : MonoBehaviour
 
     void Reload()
     {
-        if(ammo >= 0)
+        if(ammo >= 0 && ammo != 30)
         {
             if (Input.GetKeyDown(KeyCode.R))
             {

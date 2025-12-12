@@ -8,6 +8,8 @@ public class AudioPlayer : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip fireClip;
     public AudioClip reloadClip;
+    public AudioClip detectedClip;
+    public AudioClip hitClip;
 
     public void PlaySound()
     {
@@ -17,7 +19,16 @@ public class AudioPlayer : MonoBehaviour
     public void ReloadSound()
     {
         audioSource.PlayOneShot(reloadClip, 0.5f);
-        Debug.Log("play reloaded");
+    }
+
+    public void DetectSound()
+    {
+        audioSource.PlayOneShot(detectedClip, 0.5f);
+    }
+
+    public void HitSound()
+    {
+        audioSource.PlayOneShot(hitClip, 0.5f);
     }
 
     // Update is called once per frame

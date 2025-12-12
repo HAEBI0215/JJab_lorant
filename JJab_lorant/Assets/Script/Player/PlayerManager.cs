@@ -1,28 +1,37 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] public int maxHp = 100;
     [SerializeField] public int currentHp;
     [SerializeField] public int damage = 50;
-    [SerializeField] public int cirtDamage;
+    [SerializeField] public int critDamage;
     [SerializeField] public bool isDead = false;
     [SerializeField] public bool isShoot = false;
-    [SerializeField] public int ammo = 30;
+    [SerializeField] public int ammo = 15;
 
     [SerializeField] Bullet bullet;
     [SerializeField] Gun gun;
     [SerializeField] AudioPlayer audio;
+    [SerializeField] public TMP_Text ammoTxT;
+    [SerializeField] public TMP_Text hpTxT;
+    [SerializeField] public RawImage deadVedio;
+    [SerializeField] Boss boss;
+    [SerializeField] public ButtonManager buttonManager;
 
     void Start()
     {
         currentHp = maxHp;
-        cirtDamage = damage * 2;
+        critDamage = damage * 2;
         isDead = false;
         isShoot = false;
+        deadVedio.gameObject.SetActive(false);
     }
 
     void Shoot()
@@ -35,14 +44,8 @@ public class PlayerManager : MonoBehaviour
 
             ammo--;
 
-            //Debug.Log("Shoot");
-            //Debug.Log($"remaining bullet : {ammo}");
+            ammoTxT.text = ($"{ammo} / 15");
         }
-        else if (ammo == 0)
-        {
-            //Debug.Log("i need more bullet");
-        }
-
         else
         {
             isShoot = false;
@@ -51,14 +54,25 @@ public class PlayerManager : MonoBehaviour
 
     void Reload()
     {
-        if(ammo >= 0 && ammo != 30)
+        if(ammo >= 0 && ammo != 15)
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
-                ammo = 30;
-                //Debug.Log($"more bullet now : {ammo}");
+                ammo = 15;
+                ammoTxT.text = ($"{ammo} / 15");
+
                 audio.ReloadSound();
             }
+        }
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Bullet"))
+        {
+            currentHp -= boss.damage;
+            hpTxT.text = ($"{currentHp} / 100");
+            audio.HitSound();
         }
     }
 
@@ -66,5 +80,16 @@ public class PlayerManager : MonoBehaviour
     {
         Shoot();
         Reload();
+
+        if (currentHp <= 0)
+        {
+            deadVedio.gameObject.SetActive(true);
+
+            gameObject.SetActive(false);
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+
+            buttonManager.ShowButton();
+        }
     }
 }

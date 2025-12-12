@@ -6,23 +6,25 @@ using UnityEngine.AI;
 public class Boss : MonoBehaviour
 {
     public Transform player;
-    public float Range = 80f;
-    public float hp = 500f;
-    public float attackRange = 70f;
+    public float Range = 10000f;
+    public float hp = 10000f;
+    public float attackRange = 100000f;
     public float speed = 4;
-    private float lastAttackTime = -999f;
+    public int damage = 10;
 
     private NavMeshAgent agent;
     public GameObject bulletPrefab;
     public GameObject firePos; //생성 위치
     public Transform firePoint; //발사 위치
     public PlayerManager pm;
+    public AudioPlayer ap;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.speed = speed;
         pm = FindObjectOfType<PlayerManager>();
+        ap = FindObjectOfType<AudioPlayer>();
     }
 
     // Update is called once per frame
@@ -39,12 +41,17 @@ public class Boss : MonoBehaviour
             if(dist > attackRange)
             {
                 Shoot();
-                lastAttackTime = Time.time;
             }
             else
             {
                 agent.ResetPath();
             }
+            ap.DetectSound();
+        }
+
+        if (pm.currentHp <= 0)
+        {
+            gameObject.SetActive(false);
         }
     }
 
@@ -53,7 +60,6 @@ public class Boss : MonoBehaviour
         if (other.gameObject.CompareTag("Bullet"))
         {
             hp -= pm.damage;
-            Debug.Log("Boss Hit! Current HP: " + hp);
 
             if (hp == 0)
                 Destroy(gameObject);

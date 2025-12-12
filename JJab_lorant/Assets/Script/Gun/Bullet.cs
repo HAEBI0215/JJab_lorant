@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour
     public float bulletSpeed = 1000f;
     public float destroyTime = 1.5f;
     Rigidbody rb;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -17,8 +18,8 @@ public class Bullet : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
-        {
             Destroy(gameObject);
-        }
+        else if (collision.gameObject.CompareTag("Player"))
+            Destroy(gameObject);
     }
 }

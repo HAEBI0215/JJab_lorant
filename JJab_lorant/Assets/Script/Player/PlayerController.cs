@@ -20,13 +20,6 @@ public class PlayerController : PlayerManager
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        maxHp = 100;
-        currentHp = maxHp;
-        damage = 50;
-        cirtDamage = damage * 2;
-        isDead = false;
-
         Cursor.lockState = CursorLockMode.Locked;
     }
 

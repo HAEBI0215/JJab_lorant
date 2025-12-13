@@ -10,6 +10,8 @@ public class AudioPlayer : MonoBehaviour
     public AudioClip reloadClip;
     public AudioClip detectedClip;
     public AudioClip hitClip;
+    public AudioClip soUmmGiClip;
+    public AudioClip winSoundClip;
 
     public void PlaySound()
     {
@@ -31,9 +33,13 @@ public class AudioPlayer : MonoBehaviour
         audioSource.PlayOneShot(hitClip, 0.5f);
     }
 
-    // Update is called once per frame
-    public void Update()
+    public void SoUmmGiSound()
     {
-        
+        audioSource.PlayOneShot(soUmmGiClip, 0.5f);
+    }
+
+    public void WinSound()
+    {
+        audioSource.PlayOneShot(winSoundClip, 0.05f);
     }
 }

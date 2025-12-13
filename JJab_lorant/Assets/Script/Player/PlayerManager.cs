@@ -24,6 +24,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] public RawImage deadVedio;
     [SerializeField] Boss boss;
     [SerializeField] public ButtonManager buttonManager;
+    [SerializeField] public GameObject SoUmmGi;
+    [SerializeField] public bool hasGoodThings = false;
 
     void Start()
     {
@@ -32,6 +34,13 @@ public class PlayerManager : MonoBehaviour
         isDead = false;
         isShoot = false;
         deadVedio.gameObject.SetActive(false);
+        
+        if (SoUmmGi == null )
+        {
+            SoUmmGi.gameObject.SetActive(false);
+        }
+        else
+            SoUmmGi.gameObject.SetActive(true);
     }
 
     void Shoot()
@@ -40,9 +49,12 @@ public class PlayerManager : MonoBehaviour
         {
             isShoot = true;
             gun.Fire();
-            audio.PlaySound();
+            if (isShoot == true && SoUmmGi == null)
+                audio.PlaySound();
+            else if (isShoot == true && SoUmmGi != null)
+                audio.SoUmmGiSound();
 
-            ammo--;
+                ammo--;
 
             ammoTxT.text = ($"{ammo} / 15");
         }
@@ -85,7 +97,7 @@ public class PlayerManager : MonoBehaviour
         {
             deadVedio.gameObject.SetActive(true);
 
-            gameObject.SetActive(false);
+            Destroy(gameObject);
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
 

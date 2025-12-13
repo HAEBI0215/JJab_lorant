@@ -17,7 +17,7 @@ public class Gun : MonoBehaviour
     public float normalFov = 60f;
 
     public bool hasStock = false;
-    public float baseBandong = 3.5f;
+    public float baseBandong = 10f;
     public float reduceBandong = 1.2f;
 
     Camera cam;
@@ -34,24 +34,22 @@ public class Gun : MonoBehaviour
         bool isAiming = Input.GetMouseButton(1);
         float targetFov = normalFov;
 
-        if (isAiming)
+        if (isAiming && Scope != null)
         {
             targetFov = scopeFov;
 
-            if (Scope != null)
-            {
-                Scope.gameObject.SetActive(true);
-                hasGoodThings = true;
-                if (isAiming && hasGoodThings == true)
-                    targetFov = hasGoodScopeFov;
-            }
+            Scope.gameObject.SetActive(true);
+            hasGoodThings = true;
+            if (isAiming && hasGoodThings == true)
+                targetFov = hasGoodScopeFov;
         }
+
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFov, Time.deltaTime * 4f);
         
 
         if (currentBandong > 0f)
         {
-            float recover = 10f * Time.deltaTime;
+            float recover = 10f;
             currentBandong = Mathf.Max(0f, currentBandong - recover);
             cam.transform.localRotation = Quaternion.Euler( - currentBandong, 0f, 0f);
         }

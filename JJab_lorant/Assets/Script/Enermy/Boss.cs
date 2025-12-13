@@ -6,47 +6,58 @@ using UnityEngine.AI;
 public class Boss : MonoBehaviour
 {
     public Transform player;
-    public float Range = 10000f;
+    public float Range = 20f;
     public float hp = 10000f;
-    public float attackRange = 100000f;
+    public float attackRange = 10f;
     public float speed = 4;
     public int damage = 10;
 
     private NavMeshAgent agent;
     public GameObject bulletPrefab;
-    public GameObject firePos; //생성 위치
-    public Transform firePoint; //발사 위치
+    public Transform firePoint;
     public PlayerManager pm;
     public AudioPlayer ap;
+
+    bool playerInRange = false;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.speed = speed;
+
         pm = FindObjectOfType<PlayerManager>();
         ap = FindObjectOfType<AudioPlayer>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         float dist = Vector3.Distance(transform.position, player.position);
-        if (dist < Range)
+
+        if (dist <= Range)
         {
+            if (!playerInRange)
+            {
+                playerInRange = true;
+                ap.DetectSound();
+            }
+
             agent.SetDestination(player.position);
 
             Vector3 lookPos = player.position;
             lookPos.y = transform.position.y;
             transform.LookAt(lookPos);
-            if(dist > attackRange)
+
+            if (dist <= attackRange)
             {
                 Shoot();
+                ap.PlaySound();
             }
-            else
-            {
-                agent.ResetPath();
-            }
-            ap.DetectSound();
+        }
+        else
+        {
+            // Range 밖
+            playerInRange = false;
+            agent.ResetPath();
         }
 
         if (pm.currentHp <= 0)
@@ -61,13 +72,13 @@ public class Boss : MonoBehaviour
         {
             hp -= pm.damage;
 
-            if (hp == 0)
+            if (hp <= 0)
                 Destroy(gameObject);
         }
     }
 
     void Shoot()
     {
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
     }
 }

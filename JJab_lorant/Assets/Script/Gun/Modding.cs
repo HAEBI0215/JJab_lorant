@@ -1,29 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Modding : MonoBehaviour
 {
-    public Gun gun;
-    public void EquipStock()
+    public PlayerManager pm;
+    public GameObject soUmmGiObj;
+    public GameObject scope;
+
+    public void OnSoUmmGiToggleChanged(bool isOn)
     {
-        gun.hasStock = true;
+        if (pm != null)
+            pm.SetSoUmmGi(isOn);
     }
 
-    public void UnequipStock()
+    public void OnGoodScopeToggleChanged(bool isOn)
     {
-        gun.hasStock = false;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (pm != null)
+            pm.SetScope(isOn);
     }
 }

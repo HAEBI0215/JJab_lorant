@@ -26,6 +26,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] public ButtonManager buttonManager;
     [SerializeField] public GameObject SoUmmGi;
     [SerializeField] public bool hasGoodThings = false;
+    [SerializeField] public bool hasGoodUmm = false;
+    [SerializeField] public GameObject modPannel;
 
     void Start()
     {
@@ -34,13 +36,30 @@ public class PlayerManager : MonoBehaviour
         isDead = false;
         isShoot = false;
         deadVedio.gameObject.SetActive(false);
-        
-        if (SoUmmGi == null )
-        {
-            SoUmmGi.gameObject.SetActive(false);
-        }
-        else
-            SoUmmGi.gameObject.SetActive(true);
+
+        ApplyMod();
+    }
+
+    public void ApplyMod()
+    {
+        if (SoUmmGi != null)
+            SoUmmGi.SetActive(hasGoodUmm);
+
+        if (gun != null)
+            gun.SetScope(hasGoodThings);
+    }
+
+    public void SetSoUmmGi(bool isOn)
+    {
+        if (SoUmmGi != null)
+            SoUmmGi.SetActive(isOn);
+    }
+
+    public void SetScope(bool isOn)
+    {
+        hasGoodThings = isOn;
+        if (gun != null)
+            gun.SetScope(isOn);
     }
 
     void Shoot()
@@ -49,14 +68,14 @@ public class PlayerManager : MonoBehaviour
         {
             isShoot = true;
             gun.Fire();
-            if (isShoot == true && SoUmmGi == null)
-                audio.PlaySound();
-            else if (isShoot == true && SoUmmGi != null)
+
+            if (hasGoodUmm)
                 audio.SoUmmGiSound();
+            else
+                audio.PlaySound();
 
-                ammo--;
-
-            ammoTxT.text = ($"{ammo} / 15");
+            ammo--;
+            ammoTxT.text = $"{ammo} / 15";
         }
         else
         {
@@ -92,6 +111,20 @@ public class PlayerManager : MonoBehaviour
     {
         Shoot();
         Reload();
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            modPannel.gameObject.SetActive(true);
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else if (Input.GetKeyUp(KeyCode.Tab))
+        {
+            modPannel.gameObject.SetActive(false);
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
 
         if (currentHp <= 0)
         {

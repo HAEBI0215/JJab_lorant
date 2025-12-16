@@ -10,6 +10,12 @@ public class MenuButton : MonoBehaviour
         int index = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(index + 1);
     }
+
+    public void Modding()
+    {
+        int index = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(index + 2);
+    }
     public void QuitGame()
     {
 #if UNITY_EDITOR

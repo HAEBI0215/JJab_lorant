@@ -26,7 +26,14 @@ public class Gun : MonoBehaviour
     private void Awake()
     {
         cam = Camera.main;
-        Scope.gameObject.SetActive(false);
+        Scope.gameObject.SetActive(true);
+    }
+
+    public void SetScope(bool isOn)
+    {
+        hasGoodThings = isOn;
+        if (!hasGoodThings && Scope != null)
+            Scope.SetActive(false);
     }
 
     private void Update()
@@ -34,18 +41,17 @@ public class Gun : MonoBehaviour
         bool isAiming = Input.GetMouseButton(1);
         float targetFov = normalFov;
 
-        if (isAiming && Scope != null)
-        {
-            targetFov = scopeFov;
 
+        if (isAiming && Scope != null && hasGoodThings)
+        {
             Scope.gameObject.SetActive(true);
-            hasGoodThings = true;
-            if (isAiming && hasGoodThings == true)
-                targetFov = hasGoodScopeFov;
+            targetFov = hasGoodScopeFov;
         }
+        else if (Scope != null)
+            Scope.gameObject.SetActive(false);
 
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFov, Time.deltaTime * 4f);
-        
+
 
         if (currentBandong > 0f)
         {

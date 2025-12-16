@@ -18,6 +18,8 @@ public class PlayerController : PlayerManager
     float mouseY;
     float camRotX = 0f;
 
+    GameObject modPannel;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;

@@ -12,6 +12,7 @@ public class AudioPlayer : MonoBehaviour
     public AudioClip hitClip;
     public AudioClip soUmmGiClip;
     public AudioClip winSoundClip;
+    public AudioClip rollClip;
 
     public void PlaySound()
     {
@@ -41,5 +42,10 @@ public class AudioPlayer : MonoBehaviour
     public void WinSound()
     {
         audioSource.PlayOneShot(winSoundClip, 0.05f);
+    }
+
+    public void RollSound()
+    {
+        audioSource.PlayOneShot(rollClip, 0.8f);
     }
 }

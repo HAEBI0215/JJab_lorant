@@ -8,6 +8,7 @@ public class Sliding : MonoBehaviour
 {
     public Transform orientation;
     public Transform playerBody;
+    public AudioPlayer ap;
 
     public KeyCode slideKey = KeyCode.LeftShift;
 
@@ -37,6 +38,7 @@ public class Sliding : MonoBehaviour
         if (Input.GetKeyDown(slideKey) && (h != 0 || v != 0) && !isSliding)
         {
             StartSlide();
+            ap.RollSound();
         }
     }
 

@@ -1,23 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Modding : MonoBehaviour
 {
-    public PlayerManager pm;
-    public GameObject soUmmGiObj;
-    public GameObject scope;
+    public ModConfig modConfig;
+    public GameObject soUmmGiPreview;
+    public GameObject scopePreview;
 
-    public void OnSoUmmGiToggleChanged(bool isOn)
+    public void SoUmmGiOn()
     {
-        if (pm != null)
-            pm.SetSoUmmGi(isOn);
+        modConfig.hasSoUmmGi = true;
+        if (soUmmGiPreview != null)
+            soUmmGiPreview.SetActive(true);
     }
 
-    public void OnGoodScopeToggleChanged(bool isOn)
+    public void SoUmmGiOff()
     {
-        if (pm != null)
-            pm.SetScope(isOn);
+        modConfig.hasSoUmmGi = false;
+        if (soUmmGiPreview != null)
+            soUmmGiPreview.SetActive(false);
+    }
+
+    public void ScopeOn()
+    {
+        modConfig.hasGoodScope = true;
+        if (scopePreview != null)
+            scopePreview.SetActive(true);
+    }
+
+    public void ScopeOff()
+    {
+        modConfig.hasGoodScope = false;
+        if (scopePreview != null)
+            scopePreview.SetActive(false);
+    }
+
+    public void StartGame()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
     }
 }

@@ -25,9 +25,9 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] Boss boss;
     [SerializeField] public ButtonManager buttonManager;
     [SerializeField] public GameObject SoUmmGi;
+    [SerializeField] public ModConfig modConfig;
     [SerializeField] public bool hasGoodThings = false;
     [SerializeField] public bool hasGoodUmm = false;
-    [SerializeField] public GameObject modPannel;
 
     void Start()
     {
@@ -43,23 +43,10 @@ public class PlayerManager : MonoBehaviour
     public void ApplyMod()
     {
         if (SoUmmGi != null)
-            SoUmmGi.SetActive(hasGoodUmm);
+            SoUmmGi.SetActive(modConfig != null && modConfig.hasSoUmmGi);
 
-        if (gun != null)
-            gun.SetScope(hasGoodThings);
-    }
-
-    public void SetSoUmmGi(bool isOn)
-    {
-        if (SoUmmGi != null)
-            SoUmmGi.SetActive(isOn);
-    }
-
-    public void SetScope(bool isOn)
-    {
-        hasGoodThings = isOn;
-        if (gun != null)
-            gun.SetScope(isOn);
+        if (gun != null && modConfig != null)
+            gun.SetScope(modConfig.hasGoodScope);
     }
 
     void Shoot()
@@ -69,7 +56,7 @@ public class PlayerManager : MonoBehaviour
             isShoot = true;
             gun.Fire();
 
-            if (hasGoodUmm)
+            if (modConfig != null && modConfig.hasSoUmmGi)
                 audio.SoUmmGiSound();
             else
                 audio.PlaySound();
@@ -111,20 +98,6 @@ public class PlayerManager : MonoBehaviour
     {
         Shoot();
         Reload();
-
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            modPannel.gameObject.SetActive(true);
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }
-        else if (Input.GetKeyUp(KeyCode.Tab))
-        {
-            modPannel.gameObject.SetActive(false);
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-
 
         if (currentHp <= 0)
         {

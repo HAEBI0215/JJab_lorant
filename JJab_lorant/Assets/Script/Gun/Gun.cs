@@ -5,77 +5,51 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-    PlayerManager pm;
     public GameObject bulletPrefab;
-    public GameObject firePos; //생성 위치
-    public Transform firePoint; //발사 위치
+    public Transform firePoint;
     public GameObject Scope;
 
-    public bool hasGoodThings = false;
-    public float scopeFov = 40f;
-    public float hasGoodScopeFov = 20f;
+    bool hasScope = false;
+    public float scopeFov = 65f;
+    public float hasGoodScopeFov = 30f;
     public float normalFov = 60f;
 
-    public bool hasStock = false;
-    public float baseBandong = 10f;
-    public float reduceBandong = 1.2f;
-
     Camera cam;
-    float currentBandong = 0;
 
-    private void Awake()
+    void Awake()
     {
         cam = Camera.main;
-        Scope.gameObject.SetActive(true);
     }
 
     public void SetScope(bool isOn)
     {
-        hasGoodThings = isOn;
-        if (!hasGoodThings && Scope != null)
-            Scope.SetActive(false);
+        hasScope = isOn;
+        if (!hasScope && Scope != null)
+            Scope.SetActive(true);
     }
 
-    private void Update()
+    void Update()
     {
         bool isAiming = Input.GetMouseButton(1);
         float targetFov = normalFov;
 
-
-        if (isAiming && Scope != null && hasGoodThings)
+        if (isAiming && Scope != null && hasScope)
         {
-            Scope.gameObject.SetActive(true);
+            Scope.SetActive(true);
             targetFov = hasGoodScopeFov;
         }
-        else if (Scope != null)
-            Scope.gameObject.SetActive(false);
+        else if (isAiming && hasScope == false)
+        {
+            Scope.SetActive(false);
+            targetFov = scopeFov;
+        }
 
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFov, Time.deltaTime * 4f);
-
-
-        if (currentBandong > 0f)
-        {
-            float recover = 10f;
-            currentBandong = Mathf.Max(0f, currentBandong - recover);
-            cam.transform.localRotation = Quaternion.Euler( - currentBandong, 0f, 0f);
-        }
     }
 
     public void Fire()
     {
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        var bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         bullet.transform.forward = Camera.main.transform.forward;
-
-        ApplyBandong();
-    }
-
-    private void ApplyBandong()
-    {
-        float bandong = baseBandong;
-        if (hasStock)
-            bandong *= reduceBandong;
-
-        currentBandong *= bandong;
-        cam.transform.localRotation = Quaternion.Euler( - currentBandong, 0f, 0f);
     }
 }
